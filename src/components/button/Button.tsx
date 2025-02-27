@@ -17,7 +17,7 @@ const StyledButton = styled.button<ButtonProps>`
       : theme.colors['primary-500']};
   font-family: 'Pretendard Variable';
   border-radius: 12px;
-  padding: 12px 0;
+  padding: 14px 0;
   color: ${({ theme, colorScheme }) =>
     colorScheme === 'white' ? theme.colors['gray-900'] : theme.colors['white']};
   width: 100%;
