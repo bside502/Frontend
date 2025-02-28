@@ -84,7 +84,7 @@ const Form = styled.form`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  padding: 70px 35px 48px 35px;
+  padding: 40px 28px 48px 28px;
 `;
 
 const Greeting = styled.section`
@@ -187,4 +187,8 @@ const Button = styled.button`
     background: ${({ theme }) => theme.colors['gray-200']};
     color: ${({ theme }) => theme.colors['gray-500']};
   }
+
+  position: sticky;
+  bottom: 12px;
+  box-shadow: 0px 3px 10px 0px rgba(0, 0, 0, 0.4);
 `;

@@ -152,7 +152,7 @@ const Container = styled.form`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  padding: 70px 35px 48px 35px;
+  padding: 40px 28px 48px 35px;
 `;
 
 const Title = styled.section`

@@ -124,6 +124,7 @@ const Content = styled.section`
     border-radius: 12px;
     outline: none;
     font-family: 'Pretendard Variable';
+    font-size: 14px;
     border-radius: 12px;
     padding: 12px 16px;
     background: ${({ theme }) => theme.colors['primary-100']};
