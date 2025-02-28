@@ -3,6 +3,7 @@ import { useState } from 'react';
 import styled from 'styled-components';
 
 interface ReviewIncludeProps {
+  includeText: string;
   handleIncludeText: (text: string) => void;
   handlePostAnswer: () => void;
   beforeButton: () => void;
@@ -10,14 +11,15 @@ interface ReviewIncludeProps {
 
 // 5.2 포함 문구 입력
 const ReviewInclude = ({
+  includeText,
   handleIncludeText,
   handlePostAnswer,
   beforeButton,
 }: ReviewIncludeProps) => {
   const [textCount, setTextCount] = useState(0);
-  const [includeText, setIncludeText] = useState('');
 
   const handleAnswer = () => {
+    includeText = '';
     handleIncludeText(includeText);
     handlePostAnswer();
   };
@@ -40,11 +42,10 @@ const ReviewInclude = ({
       <IncludeWrapper>
         <Include
           placeholder='포함하고 싶은 내용을 이모티콘 없이 작성해주세요.'
-          value={includeText}
           maxLength={100}
           onChange={(e) => {
+            handleIncludeText(e.target.value);
             setTextCount(e.target.value.length);
-            setIncludeText(e.target.value);
           }}
         />
         <IncludeCount>{textCount}/100</IncludeCount>
