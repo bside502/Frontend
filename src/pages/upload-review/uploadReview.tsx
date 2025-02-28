@@ -163,7 +163,7 @@ const Title = styled.section`
   strong {
     color: ${({ theme }) => theme.colors['primary-500']};
     font-family: 'GmarketSansBold';
-    font-weight: 700;
+    font-weight: 599;
   }
   .info {
     margin-top: 12px;
@@ -225,7 +225,7 @@ const Content = styled.section`
 
   div {
     font-size: 15px;
-    font-weight: 700;
+    font-weight: 599;
     color: ${({ theme }) => theme.colors['gray-900']};
   }
 `;

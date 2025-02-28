@@ -129,7 +129,7 @@ const Button = styled.button`
   align-items: center;
   justify-content: center;
   font-size: 14px;
-  font-weight: 700;
+  font-weight: 599;
   svg {
     width: 15px;
     height: 15px;

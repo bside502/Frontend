@@ -91,6 +91,7 @@ const Title = styled.section`
   font-family: GmarketSansMedium;
   strong {
     font-family: GmarketSansBold;
+    font-weight: 599;
   }
   div {
     img {
@@ -136,6 +137,9 @@ const Content = styled.section`
     margin-top: 6px;
     svg {
       border-radius: 6px;
+    }
+    strong {
+      font-weight: 599;
     }
   }
 

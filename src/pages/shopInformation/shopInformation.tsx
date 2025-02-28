@@ -94,7 +94,7 @@ const Greeting = styled.section`
   strong {
     font-family: 'GmarketSansBold';
     color: ${({ theme }) => theme.colors['primary-500']};
-    font-weight: 700;
+    font-weight: 599;
   }
 `;
 
@@ -114,7 +114,7 @@ const InputContainer = styled.div`
   label {
     color: ${({ theme }) => theme.colors['gray-900']};
     padding-bottom: 8px;
-    font-weight: 700;
+    font-weight: 599;
   }
   input {
     padding: 12px 16px;
@@ -140,7 +140,7 @@ const FoodTypeContainer = styled.div`
   display: flex;
   flex-direction: column;
   font-size: 15px;
-  font-weight: 700;
+  font-weight: 599;
   color: ${({ theme }) => theme.colors['gray-900']};
   p {
     margin-bottom: 8px;

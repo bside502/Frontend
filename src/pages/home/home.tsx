@@ -64,7 +64,7 @@ const Link = styled(RouterLink)`
   display: block;
   text-align: center;
   font-size: 14px;
-  font-weight: 700;
+  font-weight: 599;
   border-radius: 12px;
   padding: 14px 0;
 `;
