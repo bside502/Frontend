@@ -58,6 +58,7 @@ const Review = () => {
         <ReviewInclude
           handleIncludeText={handleIncludeText}
           handlePostAnswer={postReview}
+          beforeButton={() => setCurrentStep(1)}
         />
       )}
 
