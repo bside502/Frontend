@@ -1,17 +1,18 @@
 import MyInfo from '@/assets/images/myInfo.svg?react';
 import { useState } from 'react';
-import { Link } from 'react-router';
 import styled from 'styled-components';
 
 interface ReviewIncludeProps {
   handleIncludeText: (text: string) => void;
   handlePostAnswer: () => void;
+  beforeButton: () => void;
 }
 
 // 5.2 포함 문구 입력
 const ReviewInclude = ({
   handleIncludeText,
   handlePostAnswer,
+  beforeButton,
 }: ReviewIncludeProps) => {
   const [textCount, setTextCount] = useState(0);
   const [includeText, setIncludeText] = useState('');
@@ -65,7 +66,7 @@ const ReviewInclude = ({
         </Exam>
       </ExamWrapper>
 
-      <Before to='/review'>
+      <Before onClick={beforeButton}>
         <svg
           xmlns='http://www.w3.org/2000/svg'
           width='11'
@@ -88,6 +89,7 @@ export default ReviewInclude;
 const Container = styled.div`
   position: relative;
   padding: 68px 28px 0px 28px;
+  min-height: 100vh;
 `;
 
 const My = styled.div`
@@ -197,7 +199,7 @@ const Exam = styled.label`
   line-height: 22px;
 `;
 
-const Before = styled(Link)`
+const Before = styled.div`
   display: flex;
   gap: 10px;
   align-items: center;
