@@ -7,6 +7,8 @@ import CopyIcon from '@/assets/images/copy.svg?react';
 import Button from '@/components/button/Button';
 import Tooltip from '@/assets/images/tooltip.png';
 
+// TODO: UI 점검 및 navigate 추가
+// TODO: API 연동 추가
 export default function PersonaSuccess() {
   const [answer, setAnswer] = useState(
     '저희 가게 음식을 좋아해주셔서 감사합니다.'

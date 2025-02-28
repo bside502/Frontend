@@ -1,16 +1,20 @@
+import { useState } from 'react';
+import { useNavigate } from 'react-router';
+import styled from 'styled-components';
+
 import Loading from '@/components/loading/Loading';
 import PersonaQuestion from '@/pages/persona/personaQuestion';
 import {
   PERSONA_BOSS_QUESTION,
   PERSONA_EMOTION_QUESTION,
 } from '@/types/persona';
-import { useState } from 'react';
-import styled from 'styled-components';
 
 // TODO: UI 완성 후 주석 삭제 예정
 export default function Persona() {
   const [currentPage, setCurrentPage] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
+
+  const navigate = useNavigate();
 
   const onClickBackBtn = () => {
     setCurrentPage(currentPage - 1);
@@ -23,6 +27,7 @@ export default function Persona() {
       setIsLoading(true);
       setTimeout(() => {
         setIsLoading(false);
+        navigate('/persona-success');
       }, 3000);
       return;
     }
