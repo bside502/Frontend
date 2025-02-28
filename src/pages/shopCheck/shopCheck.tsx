@@ -34,8 +34,8 @@ export default function ShopCheck() {
         <BackButton onClick={() => navigate(-1)}>
           아니요, 다시 입력할래요
         </BackButton>
-        <Link to='#' className='success'>
-          리뷰 답변 자동 생성 시작하기
+        <Link to='/persona' className='success'>
+          설정 완료
         </Link>
       </LinkContainer>
     </Container>
