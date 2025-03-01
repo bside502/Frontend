@@ -42,6 +42,7 @@ export default function PersonaQuestion({
               {isLastPage
                 ? PERSONA_LENGTH_QUESTION.map((question, index) => (
                     <ImageQuestionButton
+                      key={index}
                       className={
                         selectedQuestion === question ? 'selected' : ''
                       }
@@ -80,7 +81,6 @@ export default function PersonaQuestion({
         <Button
           disabled={!selectedQuestion}
           onClick={() => onClickNextBtn(selectedQuestion, type)}
-          shadow
         >
           {isLastPage ? '사장님의 답변 스타일은?' : '다음'}
         </Button>

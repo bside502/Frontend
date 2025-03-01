@@ -1,12 +1,13 @@
 import { useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
+import { Link, useNavigate } from 'react-router';
 
 import Button from '@/components/button/Button';
 import CloseIcon from '@/assets/images/close.svg?react';
-import { Link, useNavigate } from 'react-router';
 import Loading from '@/components/loading/Loading';
 import { createPersonaByUpload } from '@/services/persona';
 import Toast from '@/components/toast/toast';
+// import { getUser } from '@/services/user';
 
 // TODO: API 연결, 이미지 3개이상 첨부 문구 및 toast
 // TODO: textarea 띄어쓰기 하지 않을 경우 줄바꿈 이슈 확인
@@ -166,7 +167,7 @@ export default function UploadReview() {
               <p>업로드한 사장님 답변</p>
               {uploadedList.map((uploadedText, index) => (
                 <div className='upload-file' key={index}>
-                  <p>{uploadedText}</p>
+                  <pre>{uploadedText}</pre>
                   <CloseIcon
                     role='button'
                     onClick={() => {
@@ -353,13 +354,13 @@ const UploadContainer = styled.div`
     border-radius: 12px;
   }
 
-  .upload-file p {
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    color: ${({ theme }) => theme.colors['gray-600']};
-    font-size: 12px;
+  .upload-file pre {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
     overflow: hidden;
-    line-height: 28px;
+    text-overflow: ellipsis;
+    white-space: pre-wrap;
   }
 `;
 

@@ -49,9 +49,7 @@ export default function ShopCheck() {
         <BackButton onClick={() => navigate(-1)}>
           아니요, 다시 입력할래요
         </BackButton>
-        <Button shadow onClick={onClickCompleteBtn}>
-          설정 완료
-        </Button>
+        <Button onClick={onClickCompleteBtn}>설정 완료</Button>
       </LinkContainer>
     </Container>
   );

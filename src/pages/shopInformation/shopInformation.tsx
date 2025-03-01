@@ -73,11 +73,7 @@ export default function ShopInformation() {
         </FoodTypeContainer>
       </ContentContainer>
 
-      <SubmitButton
-        type='submit'
-        shadow
-        disabled={!shopName || !selectedFoodType}
-      >
+      <SubmitButton type='submit' disabled={!shopName || !selectedFoodType}>
         확인
       </SubmitButton>
     </Form>
