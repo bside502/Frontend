@@ -1,20 +1,24 @@
 import styled from 'styled-components';
 import { useEffect, useState } from 'react';
-import { useLocation, useNavigate } from 'react-router';
+import { useNavigate } from 'react-router';
 
 import MainContainer from '@/components/mainContainer/mainContainer';
-import PersonaSuccessImg from '@/assets/images/persona-type-1.png';
+import PersonaSuccessImg from '@/assets/images/persona-1.png';
 import CopyIcon from '@/assets/images/copy.svg?react';
 import Button from '@/components/button/Button';
 import Tooltip from '@/assets/images/tooltip.png';
-import { updateAllAnswer } from '@/services/persona';
+import { getPersona, updateAllAnswer } from '@/services/persona';
 import Toast from '@/components/toast/toast';
+import { getUser } from '@/services/user';
+import { User } from '@/types/user';
+import { GetPersonaType } from '@/types/persona';
 
 // TODO: UI 점검 및 navigate 추가
-// TODO: API 연동 추가
 export default function PersonaSuccess() {
   const navigate = useNavigate();
-  const { state } = useLocation();
+
+  const [persona, setPersona] = useState<GetPersonaType>();
+  const [user, setUser] = useState<User>();
   const [updatedAllAnswer, setUpdatedAllAnswer] = useState('');
   const [toastStatus, setToastStatus] = useState({
     isOpen: false,
@@ -22,8 +26,11 @@ export default function PersonaSuccess() {
   });
 
   const onClickCopyAnswerBtn = async () => {
+    if (!persona?.allAnswer) return;
     try {
-      await navigator.clipboard.writeText(updatedAllAnswer);
+      await navigator.clipboard.writeText(
+        updatedAllAnswer || persona.allAnswer
+      );
       setToastStatus({
         isOpen: true,
         message: '복사되었습니다.',
@@ -38,42 +45,55 @@ export default function PersonaSuccess() {
 
   const onClickUpdateAllAnswer = async () => {
     try {
+      if (!persona?.personaIdx) {
+        return;
+      }
+
       await updateAllAnswer({
         allAnswer: updatedAllAnswer,
-        personaIdx: 0,
+        personaIdx: persona.personaIdx,
       });
-      // console.log(response);
+
+      setToastStatus({
+        isOpen: true,
+        message: '만능 답변이 수정되었어요.',
+      });
     } catch {
-      // TODO: 변경 예정
-      // console.error(err)
       alert('에러 발생!');
     }
   };
 
   useEffect(() => {
-    if (!state) {
-      // navigate('/persona');
-      return;
-    }
+    (async () => {
+      const user = await getUser();
+      const persona = await getPersona();
+      if (!user || !persona) {
+        navigate('/login');
+        return;
+      }
+
+      setUser(user);
+      setPersona(persona);
+    })();
   }, []);
 
   return (
     <Container>
       <Title>
         <p>
-          <strong>웨일즈 베이커리 </strong>
+          <strong>{user?.storeName} </strong>
           사장님은
         </p>
         <div>
           <img src={PersonaSuccessImg} alt='persona-success' />
           <p>
-            당신은 <strong>따뜻한 한마디에 감사하고</strong>
+            당신은 <strong>{user?.emotionSelect}</strong>
           </p>
           <p>
-            <strong>정성이 담긴 장문의 답변</strong>
+            <strong>{user?.lengthSelect}</strong>을 선호하는
           </p>
           <p>
-            <strong>열정 넘치는 2030 청년 사장님</strong> 스타일이군요!
+            <strong>{user?.personaSelect}</strong> 스타일이군요!
           </p>
         </div>
       </Title>
@@ -94,9 +114,7 @@ export default function PersonaSuccess() {
 
         <div className='copy-answer'>
           <textarea
-            defaultValue={
-              '따뜻한 한마디에 감사하고 정성이 담긴 장문의 답변 열정 넘치는 2030 청년 사장님 스타일이군요!'
-            }
+            defaultValue={user?.allAnswer}
             onChange={(e) => setUpdatedAllAnswer(e.target.value)}
           />
         </div>

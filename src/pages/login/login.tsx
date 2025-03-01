@@ -1,44 +1,52 @@
 import { useEffect, useRef } from 'react';
 import styled from 'styled-components';
 import { Swiper, SwiperSlide } from 'swiper/react';
-import { Pagination } from 'swiper/modules';
+import { Pagination, Autoplay } from 'swiper/modules';
+import { useNavigate } from 'react-router';
 
 import WhiteLogo from '@/assets/images/blue-logo.svg?react';
 import NaverLogo from '@/assets/images/naver-logo.svg?react';
 import SlideImageOne from '@/assets/images/login-slide-1.png';
 import SlideImageTwo from '@/assets/images/login-slide-2.png';
 import SlideImageThree from '@/assets/images/login-slide-3.png';
+import KakaoLogo from '@/assets/images/kakao-logo.svg?react';
+import { getNaverUser } from '@/services/user';
 
 import 'swiper/css';
 import 'swiper/css/pagination';
-import { useNavigate } from 'react-router';
 
 export default function Login() {
-  const naverLoginBtnRef = useRef<HTMLDivElement>(null);
+  const naverLoginLinkRef = useRef<HTMLAnchorElement>(null);
   const navigate = useNavigate();
 
   const onClickNaverBtn = () => {
-    if (!window.naver || !naverLoginBtnRef.current) return;
+    if (!naverLoginLinkRef.current) return;
+    naverLoginLinkRef.current.click();
+  };
+
+  const onClickKakaoBtn = () => {
+    document.cookie = `token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJsb2dpbklkeCI6NDAsImV4cCI6MTc0MTcwOTE5MiwiaWF0IjoxNzQwODQ1MTkyfQ.0BD8XXVou_oPhXX9-pbNglpMzcJBRj5lro8YUx1OXvg`;
     navigate('/shop-information');
-    // (naverLoginBtnRef.current.children[0] as HTMLAnchorElement).click();
+  };
+
+  const getUser = async (code: string, state: string) => {
+    try {
+      const user = await getNaverUser(code, state);
+      document.cookie = `token=${user.token}`;
+      navigate('/shop-information');
+    } catch {
+      alert('에러 발생');
+    }
   };
 
   useEffect(() => {
-    if (!window.naver) return;
+    const naverHash = new URLSearchParams(window.location.search);
+    const code = naverHash.get('code');
+    const state = naverHash.get('state');
 
-    // const naverLogin = new window.naver.LoginWithNaverId({
-    //   clientId: import.meta.env.VITE_NAVER_CLIENT_ID,
-    //   callbackUrl: import.meta.env.VITE_NAVER_CALLBACK_URL,
-    //   isPopup: false,
-    //   loginButton: {
-    //     color: 'green',
-    //     type: 3,
-    //     height: 50,
-    //   },
-    // });
-
-    // if (!naverLogin) return;
-    // naverLogin.init();
+    if (code && state) {
+      getUser(code, state);
+    }
   }, []);
 
   return (
@@ -59,7 +67,12 @@ export default function Login() {
         slidesPerView={1}
         pagination={true}
         height={200}
-        modules={[Pagination]}
+        modules={[Pagination, Autoplay]}
+        autoplay={{
+          delay: 2500,
+          disableOnInteraction: false,
+        }}
+        loop={true}
       >
         <SwiperContent>
           <img src={SlideImageOne} alt='login-slide-1' />
@@ -76,20 +89,21 @@ export default function Login() {
         <p>
           리대리 서비스를 이용하려면 <strong>로그인</strong>이 필요해요!
         </p>
-        {/* <a
+        <NaverLoginLink
+          className='hidden'
+          ref={naverLoginLinkRef}
           href={`https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=${import.meta.env.VITE_NAVER_CLIENT_ID}&state=false&redirect_uri=${import.meta.env.VITE_NAVER_CALLBACK_URL}`}
         >
           네이버 로그인 테스트
-        </a> */}
+        </NaverLoginLink>
         <Button onClick={onClickNaverBtn}>
-          <div id='naverIdLogin' className='hidden' ref={naverLoginBtnRef} />
           <NaverLogo />
           네이버로 로그인하기
         </Button>
-        {/* <Button>
+        <Button onClick={onClickKakaoBtn}>
           <KakaoLogo />
-          카카오로 로그인하기
-        </Button> */}
+          테스트용 로그인하기
+        </Button>
       </LoginContainer>
     </Container>
   );
@@ -184,10 +198,14 @@ const Button = styled.button`
     height: 15px;
     margin-right: 4px;
   }
+
+  &:last-child {
+    margin-top: 10px;
+    background: #f7e600;
+    color: ${({ theme }) => theme.colors['black']};
+  }
 `;
 
-// &:last-child {
-//   margin-top: 10px;
-//   background: #f7e600;
-//   color: ${({ theme }) => theme.colors['black']};
-// }
+const NaverLoginLink = styled.a`
+  display: none;
+`;
