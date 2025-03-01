@@ -97,6 +97,7 @@ const ToastUiContainer = styled.div<{ isFadeOut: boolean }>`
 
   display: flex;
   align-items: center;
+  font-size: 14px;
 
   svg {
     margin-right: 8px;

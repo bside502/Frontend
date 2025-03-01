@@ -6,6 +6,7 @@ import CloseIcon from '@/assets/images/close.svg?react';
 import { Link, useNavigate } from 'react-router';
 import Loading from '@/components/loading/Loading';
 import { createPersonaByUpload } from '@/services/persona';
+import Toast from '@/components/toast/toast';
 
 // TODO: API 연결, 이미지 3개이상 첨부 문구 및 toast
 // TODO: textarea 띄어쓰기 하지 않을 경우 줄바꿈 이슈 확인
@@ -16,6 +17,10 @@ export default function UploadReview() {
   const [uploadedText, setUploadedText] = useState<string[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [uploadedList, setUploadedList] = useState<string[]>([]);
+  const [toastStatus, setToastStatus] = useState({
+    isOpen: false,
+    message: '',
+  });
 
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const navigate = useNavigate();
@@ -45,7 +50,10 @@ export default function UploadReview() {
     const fileNames = fileList.map((file) => file.name);
 
     if (uploadedList.length + fileNames.length > 3) {
-      alert('답변은 최대 3개까지 업로드 가능합니다.');
+      setToastStatus({
+        isOpen: true,
+        message: '답변은 최대 3개까지 업로드 가능합니다.',
+      });
       return;
     }
 
@@ -58,7 +66,10 @@ export default function UploadReview() {
   ) => {
     event.preventDefault();
     if (textareaValue.length < 20) {
-      alert('최소 20자 이상 입력해주세요.');
+      setToastStatus({
+        isOpen: true,
+        message: '최소 20자 이상 입력해주세요.',
+      });
       return;
     }
     setUploadedList([...uploadedList, textareaValue]);
@@ -137,7 +148,10 @@ export default function UploadReview() {
               onClick={(event) => {
                 event.preventDefault();
                 if (uploadedList.length >= 3) {
-                  alert('답변은 최대 3개까지 업로드 가능합니다.');
+                  setToastStatus({
+                    isOpen: true,
+                    message: '답변은 최대 3개까지 업로드 가능합니다.',
+                  });
                   return;
                 }
                 setIsOpenTextarea(true);
@@ -168,6 +182,12 @@ export default function UploadReview() {
         </Content>
       </div>
 
+      <Toast
+        isOpen={toastStatus.isOpen}
+        onClose={() => setToastStatus({ isOpen: false, message: '' })}
+        message={toastStatus.message}
+      />
+
       <ButtonContainer>
         <Link to='/persona'>답변 업로드 건너뛰기</Link>
         <Button type='submit' disabled={!uploadedList.length}>
@@ -183,7 +203,7 @@ const Container = styled.form`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  padding: 40px 28px 48px 35px;
+  padding: 40px 28px 48px 28px;
 `;
 
 const Title = styled.section`

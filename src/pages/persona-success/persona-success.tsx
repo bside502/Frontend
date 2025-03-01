@@ -8,6 +8,7 @@ import CopyIcon from '@/assets/images/copy.svg?react';
 import Button from '@/components/button/Button';
 import Tooltip from '@/assets/images/tooltip.png';
 import { updateAllAnswer } from '@/services/persona';
+import Toast from '@/components/toast/toast';
 
 // TODO: UI 점검 및 navigate 추가
 // TODO: API 연동 추가
@@ -16,14 +17,23 @@ export default function PersonaSuccess() {
   const { state } = useLocation();
   const { allAnswer, emotionSelect, lengthSelect, personaSelect, idx } = state;
   const [updatedAllAnswer, setUpdatedAllAnswer] = useState(allAnswer);
+  const [toastStatus, setToastStatus] = useState({
+    isOpen: false,
+    message: '',
+  });
 
   const onClickCopyAnswerBtn = async () => {
     try {
       await navigator.clipboard.writeText(updatedAllAnswer);
-      alert('복사되었습니다.');
-      // TODO 토스트 추가 예정
+      setToastStatus({
+        isOpen: true,
+        message: '복사되었습니다.',
+      });
     } catch {
-      alert('복사를 실패했습니다.');
+      setToastStatus({
+        isOpen: true,
+        message: '복사를 실패했습니다.',
+      });
     }
   };
 
@@ -118,6 +128,12 @@ export default function PersonaSuccess() {
           리뷰에 답하러 가기
         </BlackButton>
       </ButtonContainer>
+
+      <Toast
+        isOpen={toastStatus.isOpen}
+        onClose={() => setToastStatus({ isOpen: false, message: '' })}
+        message={toastStatus.message}
+      />
     </Container>
   );
 }
