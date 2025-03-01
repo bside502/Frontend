@@ -9,14 +9,16 @@ import Button from '@/components/button/Button';
 import Tooltip from '@/assets/images/tooltip.png';
 import { updateAllAnswer } from '@/services/persona';
 import Toast from '@/components/toast/toast';
+import { getUser } from '@/services/user';
+import { User } from '@/types/user';
 
 // TODO: UI 점검 및 navigate 추가
 export default function PersonaSuccess() {
   const navigate = useNavigate();
   const { state } = useLocation();
 
-  const { allAnswer, emotionSelect, lengthSelect, personaSelect, idx } = state;
-  const [updatedAllAnswer, setUpdatedAllAnswer] = useState(allAnswer);
+  const [user, setUser] = useState<User>();
+  const [updatedAllAnswer, setUpdatedAllAnswer] = useState('');
   const [toastStatus, setToastStatus] = useState({
     isOpen: false,
     message: '',
@@ -39,9 +41,13 @@ export default function PersonaSuccess() {
 
   const onClickUpdateAllAnswer = async () => {
     try {
+      if (!user?.userIdx) {
+        return;
+      }
+
       await updateAllAnswer({
         allAnswer: updatedAllAnswer,
-        personaIdx: idx,
+        personaIdx: user?.userIdx,
       });
     } catch {
       alert('에러 발생!');
@@ -55,23 +61,41 @@ export default function PersonaSuccess() {
     }
   }, []);
 
+  useEffect(() => {
+    (async () => {
+      const user = await getUser();
+      if (!user) {
+        navigate('/login');
+        return;
+      }
+
+      setUser(user);
+    })();
+  }, []);
+
+  // useEffect(() => {
+  //   (async () => {
+  //     const persona = await getPersona();
+  //   })();
+  // }, []);
+
   return (
     <Container>
       <Title>
         <p>
-          <strong>웨일즈 베이커리 </strong>
+          <strong>{user?.storeName}</strong>
           사장님은
         </p>
         <div>
           <img src={PersonaSuccessImg} alt='persona-success' />
           <p>
-            당신은 <strong>{emotionSelect}</strong>
+            당신은 <strong>{user?.emotionSelect}</strong>
           </p>
           <p>
-            <strong>{lengthSelect}</strong>을 선호하는
+            <strong>{user?.lengthSelect}</strong>을 선호하는
           </p>
           <p>
-            <strong>{personaSelect}</strong> 스타일이군요!
+            <strong>{user?.personaSelect}</strong> 스타일이군요!
           </p>
         </div>
       </Title>
@@ -92,7 +116,7 @@ export default function PersonaSuccess() {
 
         <div className='copy-answer'>
           <textarea
-            defaultValue={allAnswer}
+            defaultValue={user?.allAnswer}
             onChange={(e) => setUpdatedAllAnswer(e.target.value)}
           />
         </div>
