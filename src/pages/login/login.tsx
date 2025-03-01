@@ -5,38 +5,40 @@ import { Pagination } from 'swiper/modules';
 
 import WhiteLogo from '@/assets/images/blue-logo.svg?react';
 import NaverLogo from '@/assets/images/naver-logo.svg?react';
-import KakaoLogo from '@/assets/images/kakao-logo.svg?react';
 import SlideImageOne from '@/assets/images/login-slide-1.png';
 import SlideImageTwo from '@/assets/images/login-slide-2.png';
 import SlideImageThree from '@/assets/images/login-slide-3.png';
 
 import 'swiper/css';
 import 'swiper/css/pagination';
+import { useNavigate } from 'react-router';
 
 export default function Login() {
   const naverLoginBtnRef = useRef<HTMLDivElement>(null);
+  const navigate = useNavigate();
 
   const onClickNaverBtn = () => {
     if (!window.naver || !naverLoginBtnRef.current) return;
-    (naverLoginBtnRef.current.children[0] as HTMLAnchorElement).click();
+    navigate('/shop-information');
+    // (naverLoginBtnRef.current.children[0] as HTMLAnchorElement).click();
   };
 
   useEffect(() => {
     if (!window.naver) return;
 
-    const naverLogin = new window.naver.LoginWithNaverId({
-      clientId: import.meta.env.VITE_NAVER_CLIENT_ID,
-      callbackUrl: import.meta.env.VITE_NAVER_CALLBACK_URL,
-      isPopup: false,
-      loginButton: {
-        color: 'green',
-        type: 3,
-        height: 50,
-      },
-    });
+    // const naverLogin = new window.naver.LoginWithNaverId({
+    //   clientId: import.meta.env.VITE_NAVER_CLIENT_ID,
+    //   callbackUrl: import.meta.env.VITE_NAVER_CALLBACK_URL,
+    //   isPopup: false,
+    //   loginButton: {
+    //     color: 'green',
+    //     type: 3,
+    //     height: 50,
+    //   },
+    // });
 
-    if (!naverLogin) return;
-    naverLogin.init();
+    // if (!naverLogin) return;
+    // naverLogin.init();
   }, []);
 
   return (
@@ -73,20 +75,20 @@ export default function Login() {
         <p>
           리대리 서비스를 이용하려면 <strong>로그인</strong>이 필요해요!
         </p>
-        <a
+        {/* <a
           href={`https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=${import.meta.env.VITE_NAVER_CLIENT_ID}&state=false&redirect_uri=${import.meta.env.VITE_NAVER_CALLBACK_URL}`}
         >
-          굿굿
-        </a>
+          네이버 로그인 테스트
+        </a> */}
         <Button onClick={onClickNaverBtn}>
           <div id='naverIdLogin' className='hidden' ref={naverLoginBtnRef} />
           <NaverLogo />
           네이버로 로그인하기
         </Button>
-        <Button>
+        {/* <Button>
           <KakaoLogo />
           카카오로 로그인하기
-        </Button>
+        </Button> */}
       </LoginContainer>
     </Container>
   );
@@ -125,11 +127,10 @@ const SwiperContent = styled(SwiperSlide)`
 `;
 
 const Title = styled.section`
-  font-size: 18px;
   padding: 0 35px;
   padding-top: 70px;
   color: ${({ theme }) => theme.colors['primary-500']};
-  font-size: 14px;
+  font-size: 20px;
   h1 {
     font-weight: 400;
   }
@@ -182,9 +183,10 @@ const Button = styled.button`
     height: 15px;
     margin-right: 4px;
   }
-  &:last-child {
-    margin-top: 10px;
-    background: #f7e600;
-    color: ${({ theme }) => theme.colors['black']};
-  }
 `;
+
+// &:last-child {
+//   margin-top: 10px;
+//   background: #f7e600;
+//   color: ${({ theme }) => theme.colors['black']};
+// }
