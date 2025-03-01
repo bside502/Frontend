@@ -5,7 +5,7 @@ import { Link, useNavigate } from 'react-router';
 import Button from '@/components/button/Button';
 import CloseIcon from '@/assets/images/close.svg?react';
 import Loading from '@/components/loading/Loading';
-import { createPersonaByUpload } from '@/services/persona';
+// import { createPersonaByUpload } from '@/services/persona';
 import Toast from '@/components/toast/toast';
 // import { getUser } from '@/services/user';
 
@@ -14,7 +14,7 @@ import Toast from '@/components/toast/toast';
 export default function UploadReview() {
   const [isOpenTextArea, setIsOpenTextarea] = useState(false);
   const [textareaValue, setTextareaValue] = useState('');
-  const [fileList, setFileList] = useState<File[]>([]);
+  // const [fileList, setFileList] = useState<File[]>([]);
   const [uploadedText, setUploadedText] = useState<string[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [uploadedList, setUploadedList] = useState<string[]>([]);
@@ -29,10 +29,11 @@ export default function UploadReview() {
   const onSubmitForm = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setIsLoading(true);
-    await createPersonaByUpload({
-      files: fileList,
-      answers: uploadedText,
-    });
+    // console.log(fileList);
+    // await createPersonaByUpload({
+    //   files: fileList,
+    //   answers: uploadedText,
+    // });
     // TODO: API
     // const data = await createPersonaByUpload({
     //   files: fileList,
@@ -40,7 +41,9 @@ export default function UploadReview() {
     // });
     // navigate('/persona-success', { state: { data } });
 
-    navigate('/persona-success');
+    setTimeout(() => {
+      navigate('/persona-success');
+    }, 1000);
   };
 
   const onChangeFile = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -58,7 +61,7 @@ export default function UploadReview() {
       return;
     }
 
-    setFileList(Array.from(files));
+    // setFileList(Array.from(files));
     setUploadedList([...uploadedList, ...fileNames]);
   };
 
