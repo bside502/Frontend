@@ -7,6 +7,7 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   shadow?: boolean;
 }
 
+// TODO: 로딩 상태 추가
 export default function Button({ children, ...props }: ButtonProps) {
   return <StyledButton {...props}>{children}</StyledButton>;
 }

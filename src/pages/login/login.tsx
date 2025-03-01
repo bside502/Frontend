@@ -1,3 +1,4 @@
+import { useEffect, useRef } from 'react';
 import styled from 'styled-components';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Pagination } from 'swiper/modules';
@@ -5,13 +6,38 @@ import { Pagination } from 'swiper/modules';
 import WhiteLogo from '@/assets/images/blue-logo.svg?react';
 import NaverLogo from '@/assets/images/naver-logo.svg?react';
 import KakaoLogo from '@/assets/images/kakao-logo.svg?react';
+import SlideImageOne from '@/assets/images/login-slide-1.png';
+import SlideImageTwo from '@/assets/images/login-slide-2.png';
+import SlideImageThree from '@/assets/images/login-slide-3.png';
 
 import 'swiper/css';
 import 'swiper/css/pagination';
-import { useNavigate } from 'react-router';
 
 export default function Login() {
-  const navigate = useNavigate();
+  const naverLoginBtnRef = useRef<HTMLDivElement>(null);
+
+  const onClickNaverBtn = () => {
+    if (!window.naver || !naverLoginBtnRef.current) return;
+    (naverLoginBtnRef.current.children[0] as HTMLAnchorElement).click();
+  };
+
+  useEffect(() => {
+    if (!window.naver) return;
+
+    const naverLogin = new window.naver.LoginWithNaverId({
+      clientId: import.meta.env.VITE_NAVER_CLIENT_ID,
+      callbackUrl: import.meta.env.VITE_NAVER_CALLBACK_URL,
+      isPopup: false,
+      loginButton: {
+        color: 'green',
+        type: 3,
+        height: 50,
+      },
+    });
+
+    if (!naverLogin) return;
+    naverLogin.init();
+  }, []);
 
   return (
     <Container>
@@ -32,16 +58,28 @@ export default function Login() {
         pagination={true}
         modules={[Pagination]}
       >
-        <SwiperContent>1</SwiperContent>
-        <SwiperContent>2</SwiperContent>
-        <SwiperContent>3</SwiperContent>
+        <SwiperContent>
+          <img src={SlideImageOne} alt='login-slide-1' />
+        </SwiperContent>
+        <SwiperContent>
+          <img src={SlideImageTwo} alt='login-slide-2' />
+        </SwiperContent>
+        <SwiperContent>
+          <img src={SlideImageThree} alt='login-slide-3' />
+        </SwiperContent>
       </SwiperContainer>
 
       <LoginContainer>
         <p>
           리대리 서비스를 이용하려면 <strong>로그인</strong>이 필요해요!
         </p>
-        <Button onClick={() => navigate('/shop-information')}>
+        <a
+          href={`https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=${import.meta.env.VITE_NAVER_CLIENT_ID}&state=false&redirect_uri=${import.meta.env.VITE_NAVER_CALLBACK_URL}`}
+        >
+          굿굿
+        </a>
+        <Button onClick={onClickNaverBtn}>
+          <div id='naverIdLogin' className='hidden' ref={naverLoginBtnRef} />
           <NaverLogo />
           네이버로 로그인하기
         </Button>
@@ -73,14 +111,17 @@ const SwiperContainer = styled(Swiper)`
 `;
 
 const SwiperContent = styled(SwiperSlide)`
-  width: 400px;
-  height: 400px;
+  width: 300px;
   background: ${({ theme }) => theme.colors['white']};
   border-radius: 20px;
   display: flex;
   justify-content: center;
   align-items: center;
   box-shadow: 0px 0px 8px 0px rgba(0, 0, 0, 0.1);
+  img {
+    width: 100%;
+    height: 100%;
+  }
 `;
 
 const Title = styled.section`
@@ -117,6 +158,12 @@ const LoginContainer = styled.section`
     color: ${({ theme }) => theme.colors['gray-700']};
     font-size: 12px;
     margin-bottom: 12px;
+  }
+  .hidden {
+    visibility: hidden;
+    position: absolute;
+    pointer-events: none;
+    user-select: none;
   }
 `;
 
