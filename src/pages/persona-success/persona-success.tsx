@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router';
 
 import MainContainer from '@/components/mainContainer/mainContainer';
-import PersonaSuccessImg from '@/assets/images/persona-type-1.png';
+import PersonaSuccessImg from '@/assets/images/persona-1.png';
 import CopyIcon from '@/assets/images/copy.svg?react';
 import Button from '@/components/button/Button';
 import Tooltip from '@/assets/images/tooltip.png';
@@ -73,6 +73,7 @@ export default function PersonaSuccess() {
   // useEffect(() => {
   //   (async () => {
   //     const persona = await getPersona();
+  //     console.log(persona);
   //   })();
   // }, []);
 
