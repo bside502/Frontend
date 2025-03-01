@@ -38,13 +38,12 @@ export interface PersonaInsertType {
   lengthSelect: string;
 }
 
-export interface PersonaSuccess {
+export interface GetPersonaType {
   allAnswer: string;
   emotionSelect: string;
-  idx: number;
   personaSelect: string;
   personaImgType: number;
-  storeIdx: number;
-  loginIdx: number;
   lengthSelect: string;
+  personaIdx: number;
+  storeIdx: number;
 }

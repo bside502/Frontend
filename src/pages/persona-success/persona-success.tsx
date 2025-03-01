@@ -7,15 +7,17 @@ import PersonaSuccessImg from '@/assets/images/persona-1.png';
 import CopyIcon from '@/assets/images/copy.svg?react';
 import Button from '@/components/button/Button';
 import Tooltip from '@/assets/images/tooltip.png';
-import { updateAllAnswer } from '@/services/persona';
+import { getPersona, updateAllAnswer } from '@/services/persona';
 import Toast from '@/components/toast/toast';
 import { getUser } from '@/services/user';
 import { User } from '@/types/user';
+import { GetPersonaType } from '@/types/persona';
 
 // TODO: UI 점검 및 navigate 추가
 export default function PersonaSuccess() {
   const navigate = useNavigate();
 
+  const [persona, setPersona] = useState<GetPersonaType>();
   const [user, setUser] = useState<User>();
   const [updatedAllAnswer, setUpdatedAllAnswer] = useState('');
   const [toastStatus, setToastStatus] = useState({
@@ -24,8 +26,11 @@ export default function PersonaSuccess() {
   });
 
   const onClickCopyAnswerBtn = async () => {
+    if (!persona?.allAnswer) return;
     try {
-      await navigator.clipboard.writeText(updatedAllAnswer);
+      await navigator.clipboard.writeText(
+        updatedAllAnswer || persona.allAnswer
+      );
       setToastStatus({
         isOpen: true,
         message: '복사되었습니다.',
@@ -40,13 +45,13 @@ export default function PersonaSuccess() {
 
   const onClickUpdateAllAnswer = async () => {
     try {
-      if (!user?.userIdx) {
+      if (!persona?.personaIdx) {
         return;
       }
 
       await updateAllAnswer({
         allAnswer: updatedAllAnswer,
-        personaIdx: user?.userIdx,
+        personaIdx: persona.personaIdx,
       });
 
       setToastStatus({
@@ -61,21 +66,16 @@ export default function PersonaSuccess() {
   useEffect(() => {
     (async () => {
       const user = await getUser();
-      if (!user) {
+      const persona = await getPersona();
+      if (!user || !persona) {
         navigate('/login');
         return;
       }
 
       setUser(user);
+      setPersona(persona);
     })();
   }, []);
-
-  // useEffect(() => {
-  //   (async () => {
-  //     const persona = await getPersona();
-  //     console.log(persona);
-  //   })();
-  // }, []);
 
   return (
     <Container>
