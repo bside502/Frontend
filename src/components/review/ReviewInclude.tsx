@@ -1,12 +1,13 @@
 import MyInfo from '@/assets/images/myInfo.svg?react';
 import { useState } from 'react';
 import styled from 'styled-components';
+import { StickyBottomContainer } from '@/components/stickyBottomContainer/stickyBottomContainer';
+import Account from '@/pages/account/Account';
 
 interface ReviewIncludeProps {
   includeText: string;
   handleIncludeText: (text: string) => void;
   handlePostAnswer: () => void;
-  beforeButton: () => void;
 }
 
 // 5.2 포함 문구 입력
@@ -14,7 +15,6 @@ const ReviewInclude = ({
   includeText,
   handleIncludeText,
   handlePostAnswer,
-  beforeButton,
 }: ReviewIncludeProps) => {
   const [textCount, setTextCount] = useState(0);
 
@@ -24,11 +24,18 @@ const ReviewInclude = ({
     handlePostAnswer();
   };
 
+  const [infoOpen, setInfoOpen] = useState(false);
+
   return (
     <Container>
-      <My>
-        <MyInfo />
-      </My>
+      {!infoOpen && (
+        <Navbar>
+          <NavRight onClick={() => setInfoOpen(true)} />
+        </Navbar>
+      )}
+      {infoOpen && (
+        <Account close={() => setInfoOpen(false)} complete={false} />
+      )}
 
       <TitleWrapper>
         <Title>
@@ -67,26 +74,29 @@ const ReviewInclude = ({
         </Exam>
       </ExamWrapper>
 
-      <BottomWrapper>
-        <Before onClick={beforeButton}>
-          <svg
-            xmlns='http://www.w3.org/2000/svg'
-            width='11'
-            height='19'
-            viewBox='0 0 11 19'
-            fill='none'
-          >
-            <path
-              d='M10.3 1L2 9.3L10.3 17.6'
-              stroke='#73797F'
-              stroke-width='2'
-            />
-          </svg>
-          <div>이전으로</div>
-        </Before>
-
-        <ButtonBottom onClick={handleAnswer}>리대리 답변 확인하기</ButtonBottom>
-      </BottomWrapper>
+      {!infoOpen && (
+        <StickyBottomContainer>
+          <Before onClick={() => (window.location.href = '/review')}>
+            <svg
+              xmlns='http://www.w3.org/2000/svg'
+              width='11'
+              height='19'
+              viewBox='0 0 11 19'
+              fill='none'
+            >
+              <path
+                d='M10.3 1L2 9.3L10.3 17.6'
+                stroke='#73797F'
+                stroke-width='2'
+              />
+            </svg>
+            <div>이전으로</div>
+          </Before>
+          <ButtonBottom onClick={handleAnswer}>
+            리대리 답변 확인하기
+          </ButtonBottom>
+        </StickyBottomContainer>
+      )}
     </Container>
   );
 };
@@ -94,19 +104,29 @@ const ReviewInclude = ({
 export default ReviewInclude;
 
 const Container = styled.div`
-  padding: 68px 28px 48px 28px;
+  padding: 0px 28px 48px 28px;
   min-height: 100vh;
+  position: relative;
 `;
 
-const My = styled.div`
+const Navbar = styled.div`
+  width: 100%;
+  height: 64px;
   display: flex;
-  width: 40px;
-  height: 40px;
-  justify-content: center;
   align-items: center;
+  justify-content: center;
+  position: relative;
+`;
+
+const NavRight = styled(MyInfo)`
+  cursor: pointer;
   position: absolute;
-  right: 25px;
-  top: 25px;
+  width: 36px;
+  height: 36px;
+  right: 0px;
+  path {
+    stroke: ${({ theme }) => theme.colors['neutral-300']};
+  }
 `;
 
 const TitleWrapper = styled.label`
@@ -203,13 +223,6 @@ const Exam = styled.label`
   font-size: 13px;
   font-weight: 500;
   line-height: 22px;
-`;
-
-const BottomWrapper = styled.div`
-  position: sticky;
-  bottom: 0px;
-  padding: 12px 0px;
-  background: ${({ theme }) => theme.colors['gray-100']};
 `;
 
 const Before = styled.div`

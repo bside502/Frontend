@@ -6,6 +6,8 @@ import Star from './Star';
 import { useState } from 'react';
 import { Link } from 'react-router';
 import axios from 'axios';
+import { StickyBottomContainer } from '@/components/stickyBottomContainer/stickyBottomContainer';
+import Account from '@/pages/account/Account';
 
 interface ReviewUploadProps {
   handleReviewUpload: (rating: number, review: string) => void;
@@ -73,6 +75,10 @@ const ReviewUpload = ({ handleReviewUpload }: ReviewUploadProps) => {
       setReview(
         result.data.data.reviewText.replace(/[\r\n]+/g, '').replace(/↵/g, '')
       );
+      setTextCount(
+        result.data.data.reviewText.replace(/[\r\n]+/g, '').replace(/↵/g, '')
+          .length
+      );
     } catch (e) {
       console.log('리뷰 사진 에러: ', e);
     } finally {
@@ -80,11 +86,18 @@ const ReviewUpload = ({ handleReviewUpload }: ReviewUploadProps) => {
     }
   };
 
+  const [infoOpen, setInfoOpen] = useState(false);
+
   return (
     <Container>
-      <My>
-        <MyInfo />
-      </My>
+      {!infoOpen && (
+        <Navbar>
+          <NavRight onClick={() => setInfoOpen(true)} />
+        </Navbar>
+      )}
+      {infoOpen && (
+        <Account close={() => setInfoOpen(false)} complete={false} />
+      )}
 
       <TitleWrapper>
         <Title>고객 리뷰를 분석할게요</Title>
@@ -113,7 +126,7 @@ const ReviewUpload = ({ handleReviewUpload }: ReviewUploadProps) => {
           <Button
             onClick={() => document.getElementById('imageInput')?.click()}
           >
-            {isImage ? '이미지 변경하기' : '리뷰 이미지 첨부하기'}
+            {isImage ? '리뷰 이미지 변경하기' : '리뷰 이미지 첨부하기'}
           </Button>
           <input
             id='imageInput'
@@ -195,16 +208,18 @@ const ReviewUpload = ({ handleReviewUpload }: ReviewUploadProps) => {
         </ReviewButtonWrapper>
       </ReviewWrapper>
 
-      <BottomWrapper>
-        <Border />
-        <NextButton
-          onClick={() => handleReviewUpload(score, review)}
-          disabled={!isEnable}
-          state={isEnable}
-        >
-          다음
-        </NextButton>
-      </BottomWrapper>
+      {!infoOpen && (
+        <StickyBottomContainer>
+          <Border />
+          <NextButton
+            onClick={() => handleReviewUpload(score, review)}
+            disabled={!isEnable}
+            state={isEnable}
+          >
+            다음
+          </NextButton>
+        </StickyBottomContainer>
+      )}
     </Container>
   );
 };
@@ -213,19 +228,28 @@ export default ReviewUpload;
 
 const Container = styled.div`
   position: relative;
-  padding: 68px 28px 48px 28px;
+  padding: 0px 28px 48px 28px;
   min-height: 100vh;
 `;
 
-const My = styled.div`
+const Navbar = styled.div`
+  width: 100%;
+  height: 64px;
   display: flex;
-  width: 40px;
-  height: 40px;
-  justify-content: center;
   align-items: center;
+  justify-content: center;
+  position: relative;
+`;
+
+const NavRight = styled(MyInfo)`
+  cursor: pointer;
   position: absolute;
-  right: 25px;
-  top: 25px;
+  width: 36px;
+  height: 36px;
+  right: 0px;
+  path {
+    stroke: ${({ theme }) => theme.colors['neutral-300']};
+  }
 `;
 
 const TitleWrapper = styled.div`
@@ -440,25 +464,16 @@ const ToHistory = styled(Link)`
   text-decoration-line: underline;
 `;
 
-const BottomWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-
-  position: sticky;
-  bottom: 0px;
-  margin: 0px -28px;
-  padding-bottom: 12px;
-  background: ${({ theme }) => theme.colors['gray-100']};
-`;
-
 const Border = styled.div`
   height: 1px;
   background: ${({ theme }) => theme.colors['gray-200']};
+  margin: 0 -28px;
+  margin-bottom: 12px;
 `;
 
 const NextButton = styled.button<{ state: boolean }>`
   display: flex;
+  width: 100%;
   height: 52px;
   justify-content: center;
   align-items: center;
@@ -470,6 +485,4 @@ const NextButton = styled.button<{ state: boolean }>`
   font-family: 'Pretendard Variable';
   font-size: 15px;
   font-weight: 599;
-
-  margin: 0px 28px;
 `;

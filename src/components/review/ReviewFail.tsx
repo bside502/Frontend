@@ -1,40 +1,41 @@
 import WarningIcon from '@/assets/images/warning.svg?react';
-import { Link } from 'react-router';
 import styled from 'styled-components';
+import { StickyBottomContainer } from '@/components/stickyBottomContainer/stickyBottomContainer';
+
+interface ReviewFailProps {
+  toReview: () => void;
+}
 
 // 5.4 답변 작성 실패 시
-const ReviewFail = () => {
+const ReviewFail = ({ toReview }: ReviewFailProps) => {
   return (
-    <Container>
-      <Wrapper>
+    <>
+      <Container>
         <Warning />
         <Label>
           리대리 답변 생성이 중단되었어요.
           <br />
           잠시 후 다시 시도해 주세요.
         </Label>
-      </Wrapper>
-      <Button to='/review'>확인</Button>
-    </Container>
+      </Container>
+      <StickyBottomContainer
+        style={{ width: '100%', paddingLeft: '28px', paddingRight: '28px' }}
+      >
+        <Button onClick={toReview}>확인</Button>
+      </StickyBottomContainer>
+    </>
   );
 };
 
 export default ReviewFail;
 
 const Container = styled.div`
-  height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  position: relative;
-`;
-
-const Wrapper = styled.div`
+  padding: 0px 28px 48px 28px;
+  min-height: 100vh;
   display: flex;
   flex-direction: column;
-  justify-content: center;
   align-items: center;
-  gap: 8px;
+  justify-content: center;
 `;
 
 const Warning = styled(WarningIcon)`
@@ -49,16 +50,12 @@ const Label = styled.div`
   line-height: 136%;
 `;
 
-const Button = styled(Link)`
-  position: absolute;
-  left: 32px;
-  right: 32px;
-  bottom: 48px;
-
+const Button = styled.button`
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 58px;
+  width: 100%;
+  height: 52px;
   border-radius: 12px;
   background: ${({ theme }) => theme.colors['neutral-600']};
   cursor: pointer;
