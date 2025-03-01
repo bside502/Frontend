@@ -18,7 +18,7 @@ export default function ShopCheck() {
       //   shopName,
       //   storeType: selectedFoodType?.name,
       // });
-      navigate('/persona');
+      navigate('/upload-answer');
     } catch {
       // TODO: 에러 추가
       alert('에러 발생');
