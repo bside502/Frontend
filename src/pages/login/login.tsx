@@ -58,6 +58,7 @@ export default function Login() {
         spaceBetween={16}
         slidesPerView={1}
         pagination={true}
+        height={200}
         modules={[Pagination]}
       >
         <SwiperContent>
@@ -130,7 +131,7 @@ const Title = styled.section`
   padding: 0 35px;
   padding-top: 70px;
   color: ${({ theme }) => theme.colors['primary-500']};
-  font-size: 20px;
+  font-size: 19px;
   h1 {
     font-weight: 400;
   }
@@ -155,6 +156,7 @@ const LoginContainer = styled.section`
   padding: 0 35px;
   align-self: end;
   text-align: center;
+  margin-top: 20px;
   p {
     color: ${({ theme }) => theme.colors['gray-700']};
     font-size: 12px;
