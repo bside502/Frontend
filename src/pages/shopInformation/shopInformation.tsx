@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router';
 
 import CloseIcon from '@/assets/images/close.svg?react';
 import { FOOD_TYPE } from '@/types/food';
+import Button from '@/components/button/Button';
 
 export default function ShopInformation() {
   const [shopName, setShopName] = useState('');
@@ -72,9 +73,13 @@ export default function ShopInformation() {
         </FoodTypeContainer>
       </ContentContainer>
 
-      <Button type='submit' disabled={!shopName || !selectedFoodType}>
+      <SubmitButton
+        type='submit'
+        shadow
+        disabled={!shopName || !selectedFoodType}
+      >
         확인
-      </Button>
+      </SubmitButton>
     </Form>
   );
 }
@@ -174,21 +179,9 @@ const FoodTypeContainer = styled.div`
   }
 `;
 
-const Button = styled.button`
-  background: ${({ theme }) => theme.colors['primary-500']};
-  color: ${({ theme }) => theme.colors['white']};
-  font-weight: 600;
-  padding: 14px 0;
-  border-radius: 12px;
+const SubmitButton = styled(Button)`
   margin-top: 40px;
-  text-align: center;
-
-  &:disabled {
-    background: ${({ theme }) => theme.colors['gray-200']};
-    color: ${({ theme }) => theme.colors['gray-500']};
-  }
 
   position: sticky;
   bottom: 12px;
-  box-shadow: 0px 3px 10px 0px rgba(0, 0, 0, 0.4);
 `;
