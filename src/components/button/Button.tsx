@@ -38,10 +38,23 @@ const StyledButton = styled.button<ButtonProps>`
   cursor: ${({ isLoading }) => (isLoading ? 'not-allowed' : 'pointer')};
   pointer-events: ${({ isLoading }) => (isLoading ? 'none' : 'auto')};
 
+  ${({ isLoading }) =>
+    isLoading &&
+    `
+    color: transparent;
+    > *:not(div) { 
+      visibility: hidden;
+    }
+  `}
+
   &:disabled {
     background: ${({ theme }) => theme.colors['gray-200']};
     color: ${({ theme }) => theme.colors['gray-500']};
   }
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
 
   position: relative;
   span {
@@ -66,7 +79,4 @@ const Spinner = styled.div`
   border-top: 2px solid ${({ theme }) => theme.colors['primary-500']};
   border-radius: 50%;
   animation: ${spin} 1s linear infinite;
-
-  left: 48%;
-  transform: translate(-50%, -50%);
 `;
