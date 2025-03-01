@@ -81,7 +81,7 @@ export default function PersonaSuccess() {
     <Container>
       <Title>
         <p>
-          <strong>{user?.storeName}</strong>
+          <strong>{user?.storeName} </strong>
           사장님은
         </p>
         <div>
