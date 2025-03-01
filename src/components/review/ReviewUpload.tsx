@@ -89,138 +89,138 @@ const ReviewUpload = ({ handleReviewUpload }: ReviewUploadProps) => {
   const [infoOpen, setInfoOpen] = useState(false);
 
   return (
-    <Container>
+    <>
+      {infoOpen && <Account close={() => setInfoOpen(false)} />}
       {!infoOpen && (
-        <Navbar>
-          <NavRight onClick={() => setInfoOpen(true)} />
-        </Navbar>
+        <Container>
+          <Navbar>
+            <NavRight onClick={() => setInfoOpen(true)} />
+          </Navbar>
+          <TitleWrapper>
+            <Title>고객 리뷰를 분석할게요</Title>
+            <TitleDetail>
+              ⚡️<span>신경 쓰이는 컴플레인</span>부터 💬
+              <span>간단한 문의글</span>
+              까지,
+              <br />
+              리대리가 빠르게 분석해 마음에 쏙 드는 답변을 만들어드려요!
+            </TitleDetail>
+          </TitleWrapper>
+
+          <ScoreWrapper>
+            <SubTitle>고객이 남긴 별점을 알려주세요.</SubTitle>
+            <Scores>
+              {[...Array(5)].map((_, index) => (
+                <Score key={index} onClick={() => rating(index)}>
+                  <Star filled={index < score} />
+                </Score>
+              ))}
+            </Scores>
+          </ScoreWrapper>
+
+          <ReviewWrapper>
+            <SubTitle>리뷰 캡처 이미지 혹은 텍스트를 업로드해주세요.</SubTitle>
+            <ReviewButtonWrapper margin={!isImage && !isText}>
+              <Button
+                onClick={() => document.getElementById('imageInput')?.click()}
+              >
+                {isImage ? '리뷰 이미지 변경하기' : '리뷰 이미지 첨부하기'}
+              </Button>
+              <input
+                id='imageInput'
+                type='file'
+                accept='image/*'
+                style={{ display: 'none' }}
+                onChange={handleImageChange}
+              />
+              {!isImage && !isText && (
+                <>
+                  <Button onClick={() => setIsText(true)}>
+                    텍스트로 입력하기
+                  </Button>
+                </>
+              )}
+              {isImage && isLoading && (
+                <LoadingScreen>
+                  <LoadingWrapper>
+                    <LoadingChat />
+                    <Circle />
+                  </LoadingWrapper>
+                  <LoadingLabel>
+                    리뷰 이미지를 텍스트로 변환 중입니다.
+                    <br />
+                    잠시만 기다려주세요.
+                  </LoadingLabel>
+                </LoadingScreen>
+              )}
+              {isImage && !isLoading && (
+                <>
+                  <Guide>리대리가 오해한 내용은 없는지 잘 확인해주세요!</Guide>
+                  <TextAreaWrapper>
+                    <X
+                      onClick={() => {
+                        setReview('');
+                        setTextCount(0);
+                      }}
+                    >
+                      <Erase />
+                    </X>
+                    <TextArea
+                      placeholder='고객이 남긴 리뷰를 입력해주세요.'
+                      value={review}
+                      maxLength={1000}
+                      onChange={(e) => {
+                        setTextCount(e.target.value.length);
+                        setReview(e.target.value);
+                      }}
+                    />
+                    <TextCount>{textCount}/1000</TextCount>
+                  </TextAreaWrapper>
+                </>
+              )}
+              {isText && (
+                <>
+                  <TextAreaWrapper>
+                    <X
+                      onClick={() => {
+                        setReview('');
+                        setTextCount(0);
+                      }}
+                    >
+                      <Erase />
+                    </X>
+                    <TextArea
+                      placeholder='고객이 남긴 리뷰를 입력해주세요.'
+                      value={review}
+                      maxLength={1000}
+                      onChange={(e) => {
+                        setTextCount(e.target.value.length);
+                        setReview(e.target.value);
+                      }}
+                    />
+                    <TextCount>{textCount}/1000</TextCount>
+                  </TextAreaWrapper>
+                </>
+              )}
+              <ToHistory to='/review-history'>
+                이전에 생성한 AI답변을 보고 싶어요
+              </ToHistory>
+            </ReviewButtonWrapper>
+          </ReviewWrapper>
+
+          <StickyBottomContainer>
+            <Border />
+            <NextButton
+              onClick={() => handleReviewUpload(score, review)}
+              disabled={!isEnable}
+              state={isEnable}
+            >
+              다음
+            </NextButton>
+          </StickyBottomContainer>
+        </Container>
       )}
-      {infoOpen && (
-        <Account close={() => setInfoOpen(false)} complete={false} />
-      )}
-
-      <TitleWrapper>
-        <Title>고객 리뷰를 분석할게요</Title>
-        <TitleDetail>
-          ⚡️<span>신경 쓰이는 컴플레인</span>부터 💬<span>간단한 문의글</span>
-          까지,
-          <br />
-          리대리가 빠르게 분석해 마음에 쏙 드는 답변을 만들어드려요!
-        </TitleDetail>
-      </TitleWrapper>
-
-      <ScoreWrapper>
-        <SubTitle>고객이 남긴 별점을 알려주세요.</SubTitle>
-        <Scores>
-          {[...Array(5)].map((_, index) => (
-            <Score key={index} onClick={() => rating(index)}>
-              <Star filled={index < score} />
-            </Score>
-          ))}
-        </Scores>
-      </ScoreWrapper>
-
-      <ReviewWrapper>
-        <SubTitle>리뷰 캡처 이미지 혹은 텍스트를 업로드해주세요.</SubTitle>
-        <ReviewButtonWrapper margin={!isImage && !isText}>
-          <Button
-            onClick={() => document.getElementById('imageInput')?.click()}
-          >
-            {isImage ? '리뷰 이미지 변경하기' : '리뷰 이미지 첨부하기'}
-          </Button>
-          <input
-            id='imageInput'
-            type='file'
-            accept='image/*'
-            style={{ display: 'none' }}
-            onChange={handleImageChange}
-          />
-          {!isImage && !isText && (
-            <>
-              <Button onClick={() => setIsText(true)}>텍스트로 입력하기</Button>
-            </>
-          )}
-          {isImage && isLoading && (
-            <LoadingScreen>
-              <LoadingWrapper>
-                <LoadingChat />
-                <Circle />
-              </LoadingWrapper>
-              <LoadingLabel>
-                리뷰 이미지를 텍스트로 변환 중입니다.
-                <br />
-                잠시만 기다려주세요.
-              </LoadingLabel>
-            </LoadingScreen>
-          )}
-          {isImage && !isLoading && (
-            <>
-              <Guide>리대리가 오해한 내용은 없는지 잘 확인해주세요!</Guide>
-              <TextAreaWrapper>
-                <X
-                  onClick={() => {
-                    setReview('');
-                    setTextCount(0);
-                  }}
-                >
-                  <Erase />
-                </X>
-                <TextArea
-                  placeholder='고객이 남긴 리뷰를 입력해주세요.'
-                  value={review}
-                  maxLength={1000}
-                  onChange={(e) => {
-                    setTextCount(e.target.value.length);
-                    setReview(e.target.value);
-                  }}
-                />
-                <TextCount>{textCount}/1000</TextCount>
-              </TextAreaWrapper>
-            </>
-          )}
-          {isText && (
-            <>
-              <TextAreaWrapper>
-                <X
-                  onClick={() => {
-                    setReview('');
-                    setTextCount(0);
-                  }}
-                >
-                  <Erase />
-                </X>
-                <TextArea
-                  placeholder='고객이 남긴 리뷰를 입력해주세요.'
-                  value={review}
-                  maxLength={1000}
-                  onChange={(e) => {
-                    setTextCount(e.target.value.length);
-                    setReview(e.target.value);
-                  }}
-                />
-                <TextCount>{textCount}/1000</TextCount>
-              </TextAreaWrapper>
-            </>
-          )}
-          <ToHistory to='/review-history'>
-            이전에 생성한 AI답변을 보고 싶어요
-          </ToHistory>
-        </ReviewButtonWrapper>
-      </ReviewWrapper>
-
-      {!infoOpen && (
-        <StickyBottomContainer>
-          <Border />
-          <NextButton
-            onClick={() => handleReviewUpload(score, review)}
-            disabled={!isEnable}
-            state={isEnable}
-          >
-            다음
-          </NextButton>
-        </StickyBottomContainer>
-      )}
-    </Container>
+    </>
   );
 };
 

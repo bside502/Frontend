@@ -27,77 +27,75 @@ const ReviewInclude = ({
   const [infoOpen, setInfoOpen] = useState(false);
 
   return (
-    <Container>
+    <>
+      {infoOpen && <Account close={() => setInfoOpen(false)} />}
       {!infoOpen && (
-        <Navbar>
-          <NavRight onClick={() => setInfoOpen(true)} />
-        </Navbar>
+        <Container>
+          <Navbar>
+            <NavRight onClick={() => setInfoOpen(true)} />
+          </Navbar>
+
+          <TitleWrapper>
+            <Title>
+              꼭 넣고 싶은
+              <br />
+              내용이 있나요?
+            </Title>
+            <TitleDetail>(선택사항)</TitleDetail>
+          </TitleWrapper>
+
+          <IncludeWrapper>
+            <Include
+              placeholder='포함하고 싶은 내용을 이모티콘 없이 작성해주세요.'
+              maxLength={100}
+              onChange={(e) => {
+                handleIncludeText(e.target.value);
+                setTextCount(e.target.value.length);
+              }}
+            />
+            <IncludeCount>{textCount}/100</IncludeCount>
+          </IncludeWrapper>
+
+          <ExamWrapper>
+            <ExamTitle>예시 문구</ExamTitle>
+            <Exam>
+              “요즘 날씨가 춥고 길이 미끄러워서 배달이 어려울 때가 많은데,
+              무사히 잘 도착했다니 다행입니다.”
+            </Exam>
+            <Exam>
+              “저희는 당뇨식은 맛이 없다는 편견을 깨고 싶었어요! 건강도 챙기면서
+              맛있게 드셨다면 정말 뿌듯합니다! "
+            </Exam>
+            <Exam>
+              “저희 가게 모든 메뉴는 제 손을 거쳐 갑니다. 한 그릇 한 그릇 정성
+              들여 만들고 있으니, 자주 찾아주세요!”
+            </Exam>
+          </ExamWrapper>
+
+          <StickyBottomContainer>
+            <Before onClick={() => (window.location.href = '/review')}>
+              <svg
+                xmlns='http://www.w3.org/2000/svg'
+                width='11'
+                height='19'
+                viewBox='0 0 11 19'
+                fill='none'
+              >
+                <path
+                  d='M10.3 1L2 9.3L10.3 17.6'
+                  stroke='#73797F'
+                  stroke-width='2'
+                />
+              </svg>
+              <div>이전으로</div>
+            </Before>
+            <ButtonBottom onClick={handleAnswer}>
+              리대리 답변 확인하기
+            </ButtonBottom>
+          </StickyBottomContainer>
+        </Container>
       )}
-      {infoOpen && (
-        <Account close={() => setInfoOpen(false)} complete={false} />
-      )}
-
-      <TitleWrapper>
-        <Title>
-          꼭 넣고 싶은
-          <br />
-          내용이 있나요?
-        </Title>
-        <TitleDetail>(선택사항)</TitleDetail>
-      </TitleWrapper>
-
-      <IncludeWrapper>
-        <Include
-          placeholder='포함하고 싶은 내용을 이모티콘 없이 작성해주세요.'
-          maxLength={100}
-          onChange={(e) => {
-            handleIncludeText(e.target.value);
-            setTextCount(e.target.value.length);
-          }}
-        />
-        <IncludeCount>{textCount}/100</IncludeCount>
-      </IncludeWrapper>
-
-      <ExamWrapper>
-        <ExamTitle>예시 문구</ExamTitle>
-        <Exam>
-          “요즘 날씨가 춥고 길이 미끄러워서 배달이 어려울 때가 많은데, 무사히 잘
-          도착했다니 다행입니다.”
-        </Exam>
-        <Exam>
-          “저희는 당뇨식은 맛이 없다는 편견을 깨고 싶었어요! 건강도 챙기면서
-          맛있게 드셨다면 정말 뿌듯합니다! "
-        </Exam>
-        <Exam>
-          “저희 가게 모든 메뉴는 제 손을 거쳐 갑니다. 한 그릇 한 그릇 정성 들여
-          만들고 있으니, 자주 찾아주세요!”
-        </Exam>
-      </ExamWrapper>
-
-      {!infoOpen && (
-        <StickyBottomContainer>
-          <Before onClick={() => (window.location.href = '/review')}>
-            <svg
-              xmlns='http://www.w3.org/2000/svg'
-              width='11'
-              height='19'
-              viewBox='0 0 11 19'
-              fill='none'
-            >
-              <path
-                d='M10.3 1L2 9.3L10.3 17.6'
-                stroke='#73797F'
-                stroke-width='2'
-              />
-            </svg>
-            <div>이전으로</div>
-          </Before>
-          <ButtonBottom onClick={handleAnswer}>
-            리대리 답변 확인하기
-          </ButtonBottom>
-        </StickyBottomContainer>
-      )}
-    </Container>
+    </>
   );
 };
 

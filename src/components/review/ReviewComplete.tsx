@@ -12,7 +12,6 @@ import Account from '@/pages/account/Account';
 
 interface ReviewCompleteProps {
   patchReview: (logIdx: number) => void;
-
   logIdx?: number;
   score?: number;
   generateAnswer?: string;
@@ -73,69 +72,69 @@ const ReviewComplete = ({
   const [infoOpen, setInfoOpen] = useState(false);
 
   return (
-    <Container key={logIdx}>
+    <>
+      {infoOpen && <Account close={() => setInfoOpen(false)} />}
       {!infoOpen && (
-        <Navbar>
-          <NavRight onClick={() => setInfoOpen(true)} />
-        </Navbar>
+        <Container key={logIdx}>
+          <Navbar>
+            <NavRight onClick={() => setInfoOpen(true)} />
+          </Navbar>
+
+          <TitleWrapper>
+            <TitleDetail>
+              <span>{name}</span>에 대한
+            </TitleDetail>
+            <Title>
+              <span>{reviewType}</span>리뷰가 달렸어요
+            </Title>
+          </TitleWrapper>
+
+          <Scores>
+            {[...Array(5)].map((_, index) => (
+              <Score key={index}>
+                <Star filled={index < score} />
+              </Score>
+            ))}
+          </Scores>
+
+          <Review>{reviewText}</Review>
+          <Arrow />
+          <AnswerWrapper>
+            <AnswerTitleWrapper>
+              <AnswerTitle>
+                이렇게 <span>답변해보시는 건 어떨까요?</span>
+              </AnswerTitle>
+              <Copy onClick={copy} />
+            </AnswerTitleWrapper>
+            <Answer
+              value={copyText}
+              onChange={(e) => setCopyText(e.target.value)}
+            />
+            <Rewrite onClick={() => patchReview(logIdx)}>
+              원하는 답변이 아닌가요? <span>답변 재작성하기</span>
+            </Rewrite>
+          </AnswerWrapper>
+
+          <StickyBottomContainer style={{ background: '#2B91FF' }}>
+            <Border />
+            <ButtonWrapper>
+              <img src={Tooltip} alt='tooltip' />
+              <Button state='' onClick={() => navigate('/upload-answer')}>
+                스타일 수정하기
+              </Button>
+              <Button
+                state='black'
+                onClick={() => {
+                  window.location.href = '/review';
+                }}
+              >
+                다른 리뷰도 답변하기
+              </Button>
+            </ButtonWrapper>
+          </StickyBottomContainer>
+        </Container>
       )}
-      {infoOpen && <Account close={() => setInfoOpen(false)} complete={true} />}
-
-      <TitleWrapper>
-        <TitleDetail>
-          <span>{name}</span>에 대한
-        </TitleDetail>
-        <Title>
-          <span>{reviewType}</span>리뷰가 달렸어요
-        </Title>
-      </TitleWrapper>
-
-      <Scores>
-        {[...Array(5)].map((_, index) => (
-          <Score key={index}>
-            <Star filled={index < score} />
-          </Score>
-        ))}
-      </Scores>
-
-      <Review>{reviewText}</Review>
-      <Arrow />
-      <AnswerWrapper>
-        <AnswerTitleWrapper>
-          <AnswerTitle>
-            이렇게 <span>답변해보시는 건 어떨까요?</span>
-          </AnswerTitle>
-          <Copy onClick={copy} />
-        </AnswerTitleWrapper>
-        <Answer
-          value={copyText}
-          onChange={(e) => setCopyText(e.target.value)}
-        />
-        <Rewrite onClick={() => patchReview(logIdx)}>
-          원하는 답변이 아닌가요? <span>답변 재작성하기</span>
-        </Rewrite>
-      </AnswerWrapper>
-
-      {!infoOpen && (
-        <StickyBottomContainer style={{ background: '#2B91FF' }}>
-          <Border />
-          <ButtonWrapper>
-            <img src={Tooltip} alt='tooltip' />
-            <Button state='' onClick={() => navigate('/upload-answer')}>
-              스타일 수정하기
-            </Button>
-            <Button
-              state='black'
-              onClick={() => {
-                window.location.href = '/review';
-              }}
-            >
-              다른 리뷰도 답변하기
-            </Button>
-          </ButtonWrapper>
-        </StickyBottomContainer>
-      )}
-    </Container>
+    </>
   );
 };
 
