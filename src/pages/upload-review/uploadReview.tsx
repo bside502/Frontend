@@ -114,7 +114,7 @@ export default function UploadReview() {
               <strong>안성맞춤, 찰떡콩떡</strong>한 리뷰 생성을 위해
             </p>
             <p>사장님의 말투를 먼저 분석합니다.</p>
-            <p>직접 장성하신 답변의 사진이나 텍스트를 업로드해주세요.</p>
+            <p>직접 작성하신 답변의 사진이나 텍스트를 업로드해주세요.</p>
             <span>*최대 3개의 답변까지 가능합니다.</span>
           </div>
         </Title>
