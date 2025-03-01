@@ -40,7 +40,7 @@ export default function ShopCheck() {
         <p>
           <strong>{shopName || ''}</strong> 사장님이시군요!
         </p>
-        <p>이렇게 정보 설정을 완료할까요?</p>
+        <p>가게 정보 설정을 완료할까요?</p>
       </Title>
       <Content>
         <img src={selectedFoodType?.selectedImage} alt='' />
