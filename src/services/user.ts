@@ -1,11 +1,17 @@
-import axios from 'axios';
-
-const BASE_URL = 'http://api.redaeri.kro.kr/api/v1';
+import { fetcher } from './request';
 
 export const getNaverUser = async (code: string, state: string) => {
-  const response = await axios.post(`${BASE_URL}/naver/callback`, {
-    code,
-    state,
+  const { data } = await fetcher<{ token: string }>(`/naver/callback`, {
+    method: 'POST',
+    data: {
+      code,
+      state,
+    },
   });
-  return response.data;
+  return data;
+};
+
+export const getUser = async () => {
+  const { data } = await fetcher('/user/get');
+  return data;
 };
