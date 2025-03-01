@@ -15,8 +15,7 @@ import Toast from '@/components/toast/toast';
 export default function PersonaSuccess() {
   const navigate = useNavigate();
   const { state } = useLocation();
-  const { allAnswer, emotionSelect, lengthSelect, personaSelect, idx } = state;
-  const [updatedAllAnswer, setUpdatedAllAnswer] = useState(allAnswer);
+  const [updatedAllAnswer, setUpdatedAllAnswer] = useState('');
   const [toastStatus, setToastStatus] = useState({
     isOpen: false,
     message: '',
@@ -41,7 +40,7 @@ export default function PersonaSuccess() {
     try {
       await updateAllAnswer({
         allAnswer: updatedAllAnswer,
-        personaIdx: idx,
+        personaIdx: 0,
       });
       // console.log(response);
     } catch {
@@ -53,7 +52,7 @@ export default function PersonaSuccess() {
 
   useEffect(() => {
     if (!state) {
-      navigate('/persona');
+      // navigate('/persona');
       return;
     }
   }, []);
@@ -68,13 +67,13 @@ export default function PersonaSuccess() {
         <div>
           <img src={PersonaSuccessImg} alt='persona-success' />
           <p>
-            당신은 <strong>{emotionSelect}</strong>
+            당신은 <strong>따뜻한 한마디에 감사하고</strong>
           </p>
           <p>
-            <strong>{lengthSelect}</strong>을 선호하는
+            <strong>정성이 담긴 장문의 답변</strong>
           </p>
           <p>
-            <strong>{personaSelect}</strong> 스타일이군요!
+            <strong>열정 넘치는 2030 청년 사장님</strong> 스타일이군요!
           </p>
         </div>
       </Title>
@@ -95,14 +94,16 @@ export default function PersonaSuccess() {
 
         <div className='copy-answer'>
           <textarea
-            defaultValue={allAnswer}
+            defaultValue={
+              '따뜻한 한마디에 감사하고 정성이 담긴 장문의 답변 열정 넘치는 2030 청년 사장님 스타일이군요!'
+            }
             onChange={(e) => setUpdatedAllAnswer(e.target.value)}
           />
         </div>
 
         <div className='save-answer'>
           <span>만능 답변을 수정해서 알맞게 만들어보세요!</span>
-          {updatedAllAnswer !== allAnswer && (
+          {updatedAllAnswer !== '' && (
             <SaveButton onClick={onClickUpdateAllAnswer}>
               만능답변 저장하기
             </SaveButton>

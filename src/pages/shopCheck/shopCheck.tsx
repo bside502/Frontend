@@ -4,7 +4,7 @@ import { useEffect } from 'react';
 
 import MainContainer from '@/components/mainContainer/mainContainer';
 import Button from '@/components/button/Button';
-import { createStore } from '@/services/store';
+// import { createStore } from '@/services/store';
 
 export default function ShopCheck() {
   const navigate = useNavigate();
@@ -14,10 +14,10 @@ export default function ShopCheck() {
 
   const onClickCompleteBtn = async () => {
     try {
-      await createStore({
-        shopName,
-        storeType: selectedFoodType?.name,
-      });
+      // await createStore({
+      //   shopName,
+      //   storeType: selectedFoodType?.name,
+      // });
       navigate('/persona');
     } catch {
       // TODO: 에러 추가
@@ -35,7 +35,7 @@ export default function ShopCheck() {
     <Container>
       <Title>
         <p>
-          <strong>{selectedFoodType?.name || ''}</strong>를 판매하는
+          <strong>{selectedFoodType?.name || ''}</strong>를(을) 판매하는
         </p>
         <p>
           <strong>{shopName || ''}</strong> 사장님이시군요!
