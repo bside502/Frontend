@@ -11,11 +11,12 @@ import { updateAllAnswer } from '@/services/persona';
 import Toast from '@/components/toast/toast';
 
 // TODO: UI 점검 및 navigate 추가
-// TODO: API 연동 추가
 export default function PersonaSuccess() {
   const navigate = useNavigate();
   const { state } = useLocation();
-  const [updatedAllAnswer, setUpdatedAllAnswer] = useState('');
+
+  const { allAnswer, emotionSelect, lengthSelect, personaSelect, idx } = state;
+  const [updatedAllAnswer, setUpdatedAllAnswer] = useState(allAnswer);
   const [toastStatus, setToastStatus] = useState({
     isOpen: false,
     message: '',
@@ -40,19 +41,16 @@ export default function PersonaSuccess() {
     try {
       await updateAllAnswer({
         allAnswer: updatedAllAnswer,
-        personaIdx: 0,
+        personaIdx: idx,
       });
-      // console.log(response);
     } catch {
-      // TODO: 변경 예정
-      // console.error(err)
       alert('에러 발생!');
     }
   };
 
   useEffect(() => {
     if (!state) {
-      // navigate('/persona');
+      navigate('/persona');
       return;
     }
   }, []);
@@ -67,13 +65,13 @@ export default function PersonaSuccess() {
         <div>
           <img src={PersonaSuccessImg} alt='persona-success' />
           <p>
-            당신은 <strong>따뜻한 한마디에 감사하고</strong>
+            당신은 <strong>{emotionSelect}</strong>
           </p>
           <p>
-            <strong>정성이 담긴 장문의 답변</strong>
+            <strong>{lengthSelect}</strong>을 선호하는
           </p>
           <p>
-            <strong>열정 넘치는 2030 청년 사장님</strong> 스타일이군요!
+            <strong>{personaSelect}</strong> 스타일이군요!
           </p>
         </div>
       </Title>
@@ -94,9 +92,7 @@ export default function PersonaSuccess() {
 
         <div className='copy-answer'>
           <textarea
-            defaultValue={
-              '따뜻한 한마디에 감사하고 정성이 담긴 장문의 답변 열정 넘치는 2030 청년 사장님 스타일이군요!'
-            }
+            defaultValue={allAnswer}
             onChange={(e) => setUpdatedAllAnswer(e.target.value)}
           />
         </div>

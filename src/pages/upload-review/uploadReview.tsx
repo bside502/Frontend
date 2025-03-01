@@ -5,16 +5,18 @@ import { Link, useNavigate } from 'react-router';
 import Button from '@/components/button/Button';
 import CloseIcon from '@/assets/images/close.svg?react';
 import Loading from '@/components/loading/Loading';
-// import { createPersonaByUpload } from '@/services/persona';
+import { createPersonaByUpload } from '@/services/persona';
 import Toast from '@/components/toast/toast';
-// import { getUser } from '@/services/user';
+import { getUser } from '@/services/user';
+import { User } from '@/types/user';
 
 // TODO: API 연결, 이미지 3개이상 첨부 문구 및 toast
 // TODO: textarea 띄어쓰기 하지 않을 경우 줄바꿈 이슈 확인
 export default function UploadReview() {
   const [isOpenTextArea, setIsOpenTextarea] = useState(false);
+  const [user, setUser] = useState<User>();
   const [textareaValue, setTextareaValue] = useState('');
-  // const [fileList, setFileList] = useState<File[]>([]);
+  const [fileList, setFileList] = useState<File[]>([]);
   const [uploadedText, setUploadedText] = useState<string[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [uploadedList, setUploadedList] = useState<string[]>([]);
@@ -29,21 +31,16 @@ export default function UploadReview() {
   const onSubmitForm = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setIsLoading(true);
-    // console.log(fileList);
-    // await createPersonaByUpload({
-    //   files: fileList,
-    //   answers: uploadedText,
-    // });
-    // TODO: API
-    // const data = await createPersonaByUpload({
-    //   files: fileList,
-    //   answers: uploadedText,
-    // });
-    // navigate('/persona-success', { state: { data } });
+    await createPersonaByUpload({
+      files: fileList,
+      answers: uploadedText,
+    });
 
-    setTimeout(() => {
-      navigate('/persona-success');
-    }, 1000);
+    const data = await createPersonaByUpload({
+      files: fileList,
+      answers: uploadedText,
+    });
+    navigate('/persona-success', { state: { data } });
   };
 
   const onChangeFile = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -61,7 +58,7 @@ export default function UploadReview() {
       return;
     }
 
-    // setFileList(Array.from(files));
+    setFileList(Array.from(files));
     setUploadedList([...uploadedList, ...fileNames]);
   };
 
@@ -91,8 +88,13 @@ export default function UploadReview() {
 
   useEffect(() => {
     (async () => {
-      // const { data } = await getUser();
-      // console.log(data);
+      const data = await getUser();
+      if (!data) {
+        navigate('/login');
+        return;
+      }
+
+      setUser(data);
     })();
   }, []);
 
@@ -106,7 +108,7 @@ export default function UploadReview() {
     <Container onSubmit={onSubmitForm}>
       <div>
         <Title>
-          <strong>웨일즈 베이커리</strong>
+          <strong>{user?.storeName}</strong>
           <p>사장님, 반갑습니다!</p>
 
           <div className='info'>
