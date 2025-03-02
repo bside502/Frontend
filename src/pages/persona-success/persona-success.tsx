@@ -11,9 +11,8 @@ import { getPersona, updateAllAnswer } from '@/services/persona';
 import Toast from '@/components/toast/toast';
 import { getUser } from '@/services/user';
 import { User } from '@/types/user';
-import { GetPersonaType } from '@/types/persona';
+import { GetPersonaType, PERSONA_IMG_TYPE } from '@/types/persona';
 
-// TODO: UI 점검 및 navigate 추가
 export default function PersonaSuccess() {
   const navigate = useNavigate();
 
@@ -24,6 +23,10 @@ export default function PersonaSuccess() {
     isOpen: false,
     message: '',
   });
+
+  const personaImgType = persona?.personaImgType
+    ? PERSONA_IMG_TYPE[persona.personaImgType - 1]
+    : PersonaSuccessImg;
 
   const onClickCopyAnswerBtn = async () => {
     if (!persona?.allAnswer) return;
@@ -87,7 +90,7 @@ export default function PersonaSuccess() {
           사장님은
         </p>
         <div>
-          <img src={PersonaSuccessImg} alt='persona-success' />
+          <img src={personaImgType} alt='persona-success' />
           <p>
             당신은 <strong>{user?.emotionSelect}</strong>
           </p>

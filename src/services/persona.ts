@@ -41,9 +41,11 @@ export const updateAllAnswer = async ({
 export const createPersonaByUpload = async ({
   files,
   answers,
+  personaIdx,
 }: {
   files: File[];
   answers: string[];
+  personaIdx?: number;
 }) => {
   const formData = new FormData();
   const handleIndexText = (index: number) =>
@@ -61,11 +63,39 @@ export const createPersonaByUpload = async ({
     formData.append('uploadFileList', file);
   });
 
-  return fetcher('/persona/analyze', {
+  if (personaIdx) {
+    formData.append('personaIdx', personaIdx.toString());
+  }
+
+  const data = await fetcher<GetPersonaType>('/persona/analyze', {
     method: 'POST',
     headers: {
       'Content-Type': 'multipart/form-data',
     },
     data: formData,
+  });
+
+  return data;
+};
+
+export const updatePersona = async ({
+  personaIdx,
+  emotionSelect,
+  lengthSelect,
+  personaSelect,
+}: {
+  personaIdx: number;
+  emotionSelect: string;
+  lengthSelect: string;
+  personaSelect: string;
+}) => {
+  return fetcher<GetPersonaType>('/persona/update', {
+    method: 'PATCH',
+    data: {
+      personaIdx,
+      emotionSelect,
+      lengthSelect,
+      personaSelect,
+    },
   });
 };
