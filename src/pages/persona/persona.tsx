@@ -10,6 +10,9 @@ import {
   PERSONA_EMOTION_QUESTION,
   PersonaInsertType,
   GetPersonaType,
+  personaMapping,
+  emotionMapping,
+  lengthMapping,
 } from '@/types/persona';
 import { createPersona, getPersona, updatePersona } from '@/services/persona';
 
@@ -49,11 +52,16 @@ export default function Persona() {
 
     setIsLoading(true);
 
+    const personaSelect = personaMapping[currentPersona.personaSelect];
+    const emotionSelect = emotionMapping[currentPersona.emotionSelect];
+    const lengthSelect = lengthMapping[question];
+
     if (persona) {
       const { data } = await updatePersona({
-        ...currentPersona,
         personaIdx: persona.personaIdx,
-        lengthSelect: question,
+        emotionSelect: emotionSelect,
+        lengthSelect: lengthSelect,
+        personaSelect: personaSelect,
       });
 
       // TODO: APi 수정이 필요해 임시 방편으로 state사용
@@ -66,8 +74,9 @@ export default function Persona() {
     }
 
     const { data } = await createPersona({
-      ...currentPersona,
-      lengthSelect: question,
+      emotionSelect: emotionSelect,
+      lengthSelect: lengthSelect,
+      personaSelect: personaSelect,
     });
     // TODO: APi 수정이 필요해 임시 방편으로 state사용
     navigate('/persona-success', {
