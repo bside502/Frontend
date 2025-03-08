@@ -26,10 +26,22 @@ export const emotionMapping: { [key: string]: string } = {
   '고객님의 리뷰가 힘이 돼요💪': 'cheer',
 };
 
+export const emotionMappingSuccess: { [key: string]: string } = {
+  thank: '따뜻한 한마디에 감사하고',
+  happy: '고객과 소통하며 기뻐하고',
+  cheer: '힘이 되는 리뷰로부터 자신감을 충전하고',
+};
+
 export const lengthMapping: { [key: string]: string } = {
   '정성이 최고 긴~ 답변': 'long',
   '길지도 짧지도 않게 알잘딱깔센': 'medium',
   '정성이 최고 짧은~ 답변': 'short',
+};
+
+export const lengthMappingSuccess: { [key: string]: string } = {
+  long: '정성이 담긴 장문',
+  medium: '적당한 중간 길이',
+  short: '핵심만 간단하게 단문',
 };
 
 export const PERSONA_SELECT_QUESTION_VALUE = [

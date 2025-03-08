@@ -20,7 +20,7 @@ import { createPersona, getPersona, updatePersona } from '@/services/persona';
 export default function Persona() {
   const [persona, setPersona] = useState<GetPersonaType | null>();
   const [currentPage, setCurrentPage] = useState(0);
-  const [isLoading, setIsLoading] = useState(false);
+  const [isloading, setIsloading] = useState(false);
   const [currentPersona, setCurrentPersona] = useState<PersonaInsertType>({
     personaSelect: '',
     emotionSelect: '',
@@ -50,7 +50,7 @@ export default function Persona() {
     const isLastPage = currentPage === 2;
     if (!isLastPage) return;
 
-    setIsLoading(true);
+    setIsloading(true);
 
     const personaSelect = personaMapping[currentPersona.personaSelect];
     const emotionSelect = emotionMapping[currentPersona.emotionSelect];
@@ -96,7 +96,7 @@ export default function Persona() {
     window.scrollTo(0, 0);
   }, []);
 
-  return !isLoading ? (
+  return !isloading ? (
     <Container>
       <ProgressBarContainer>
         <ProgressBar className={currentPage >= 0 ? 'active' : ''} />

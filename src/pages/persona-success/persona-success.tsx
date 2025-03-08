@@ -12,9 +12,9 @@ import Toast from '@/components/toast/toast';
 import { getUser } from '@/services/user';
 import { User } from '@/types/user';
 import {
-  emotionMapping,
+  emotionMappingSuccess,
   GetPersonaType,
-  lengthMapping,
+  lengthMappingSuccess,
   PERSONA_IMG_TYPE,
   personaMapping,
 } from '@/types/persona';
@@ -106,11 +106,15 @@ export default function PersonaSuccess() {
           <img src={personaImgType} alt='persona-success' />
           <p>
             당신은{' '}
-            <strong>{convert(emotionMapping, user?.emotionSelect)}</strong>
+            <strong>
+              {emotionMappingSuccess[user?.emotionSelect || 'thank']}
+            </strong>
           </p>
           <p>
-            <strong>{convert(lengthMapping, user?.lengthSelect)}</strong>을
-            선호하는
+            <strong>
+              {lengthMappingSuccess[user?.lengthSelect || 'long']}
+            </strong>
+            을 선호하는
           </p>
           <p>
             <strong>{convert(personaMapping, user?.personaSelect)}</strong>{' '}
