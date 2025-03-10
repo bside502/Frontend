@@ -78,7 +78,7 @@ const Account = ({ close }: AccountClose) => {
       </Wrapper>
       <DeleteWrapper>
         <label onClick={logout}>로그아웃</label>
-        {/* <Border /> */}
+        <Border />
         <label
           onClick={() => {
             navigate('/delete');
@@ -216,8 +216,8 @@ const DeleteWrapper = styled.div`
   }
 `;
 
-// const Border = styled.div`
-//   width: 1px;
-//   height: 12px;
-//   background: ${({ theme }) => theme.colors['gray-500']};
-// `;
+const Border = styled.div`
+  width: 1px;
+  height: 12px;
+  background: ${({ theme }) => theme.colors['gray-500']};
+`;
