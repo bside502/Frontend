@@ -54,14 +54,14 @@ const Account = ({ close }: AccountClose) => {
             <img src={selectedImage} alt='가게 타입 이미지' />
             <label>{user?.storeName}</label>
           </div>
-          {/* <button
+          <button
             onClick={() => {
-              navigate('/shop-check');
+              navigate('/shop-information');
               window.scrollTo(0, 0);
             }}
           >
             변경
-          </button> */}
+          </button>
         </Info>
       </Wrapper>
       <Wrapper>
@@ -85,7 +85,7 @@ const Account = ({ close }: AccountClose) => {
             window.scrollTo(0, 0);
           }}
         >
-          회원탈퇴
+          서비스 탈퇴
         </label>
       </DeleteWrapper>
     </Container>
