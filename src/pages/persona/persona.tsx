@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router';
 import styled from 'styled-components';
-
+import XICon from '@/assets/images/X.svg?react';
 import Loading from '@/components/loading/Loading';
 import PersonaQuestion from '@/pages/persona/personaQuestion';
 import {
@@ -98,11 +98,19 @@ export default function Persona() {
 
   return !isloading ? (
     <Container>
-      <ProgressBarContainer>
-        <ProgressBar className={currentPage >= 0 ? 'active' : ''} />
-        <ProgressBar className={currentPage >= 1 ? 'active' : ''} />
-        <ProgressBar className={currentPage >= 2 ? 'active' : ''} />
-      </ProgressBarContainer>
+      <Navbar>
+        <ProgressBarContainer>
+          <ProgressBar className={currentPage >= 0 ? 'active' : ''} />
+          <ProgressBar className={currentPage >= 1 ? 'active' : ''} />
+          <ProgressBar className={currentPage >= 2 ? 'active' : ''} />
+          <NavRight
+            onClick={() => {
+              navigate(-1);
+              window.scrollTo(0, 0);
+            }}
+          />
+        </ProgressBarContainer>
+      </Navbar>
 
       {currentPage === 0 && (
         <PersonaQuestion
@@ -171,6 +179,27 @@ const ProgressBarContainer = styled.div`
   display: flex;
   gap: 8px;
   justify-content: center;
+`;
+
+const Navbar = styled.div`
+  width: 100%;
+  height: 64px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+`;
+
+const NavRight = styled(XICon)`
+  cursor: pointer;
+  position: absolute;
+  width: 28px;
+  height: 28px;
+  top: 0;
+  right: -8px;
+  path {
+    stroke: ${({ theme }) => theme.colors['neutral-300']};
+  }
 `;
 
 const ProgressBar = styled.div`
