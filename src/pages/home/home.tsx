@@ -63,7 +63,7 @@ const Container = styled.div`
 const Greeting = styled.img`
   position: absolute;
   top: 25%;
-  height: 360px;
+  height: 400px;
   margin-right: -28px;
 `;
 
